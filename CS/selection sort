@@ -1,0 +1,27 @@
+#include <stdio.h>
+
+int main()
+{
+    int num[5] = {4,6,9,2,5};
+    int temp=0;
+    for(int i=0;i<5;i++)
+    {
+        int k=i;    
+        for(int j=i+1;j<5;j++)  //j는 배열 한칸씩 옮겨가며 비교대상이 되고 k는 j랑 비교해서 작은 배열 번지수를 저장
+        {
+            if(num[j]<num[k]) 
+            {
+                k=j;
+            }
+        }
+
+        temp = num[k];
+        num[k] = num[i];
+        num[i] = temp;
+    }
+
+    for(int i=0;i<5;i++)
+    {
+        printf("%d",num[i]);
+    }
+}
