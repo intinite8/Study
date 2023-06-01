@@ -1,0 +1,130 @@
+#include <stdio.h>
+#include <string.h>
+
+#define MAX_CONTACTS 100
+
+typedef struct {
+    char name[50];
+    char number[20];
+} Contact;
+
+Contact contacts[MAX_CONTACTS];
+int numContacts = 0;
+
+void addContact() {
+    if (numContacts >= MAX_CONTACTS) {
+        printf("더 이상 연락처를 추가할 수 없습니다.\n");
+        return;
+    }
+
+    printf("이름: ");
+    scanf("%s", contacts[numContacts].name);
+
+    printf("전화번호: ");
+    scanf("%s", contacts[numContacts].number);
+
+    numContacts++;
+    printf("연락처가 추가되었습니다.\n");
+}
+
+void searchContact() {
+    char searchName[50];
+    int found = 0;
+
+    printf("검색할 이름: ");
+    scanf("%s", searchName);
+
+    for (int i = 0; i < numContacts; i++) {
+        if (strcmp(searchName, contacts[i].name) == 0) {
+            printf("이름: %s, 전화번호: %s\n", contacts[i].name, contacts[i].number);
+            found = 1;
+        }
+    }
+
+    if (!found) {
+        printf("검색 결과가 없습니다.\n");
+    }
+}
+
+void updateContact() {
+    char updateName[50];
+    int found = 0;
+
+    printf("수정할 이름: ");
+    scanf("%s", updateName);
+
+    for (int i = 0; i < numContacts; i++) {
+        if (strcmp(updateName, contacts[i].name) == 0) {
+            printf("새로운 전화번호: ");
+            scanf("%s", contacts[i].number);
+            printf("연락처가 수정되었습니다.\n");
+            found = 1;
+        }
+    }
+
+    if (!found) {
+        printf("수정할 연락처가 없습니다.\n");
+    }
+}
+
+void deleteContact() {
+    char deleteName[50];
+    int found = 0;
+
+    printf("삭제할 이름: ");
+    scanf("%s", deleteName);
+
+    for (int i = 0; i < numContacts; i++) {
+        if (strcmp(deleteName, contacts[i].name) == 0) {
+            strcpy(contacts[i].name, "");
+            strcpy(contacts[i].number, "");
+            printf("연락처가 삭제되었습니다.\n");
+            found = 1;
+        }
+    }
+
+    if (!found) {
+        printf("삭제할 연락처가 없습니다.\n");
+    }
+}
+
+void printMenu() {
+    printf("\n전화번호 관리 프로그램\n");
+    printf("1. 연락처 추가\n");
+    printf("2. 연락처 검색\n");
+    printf("3. 연락처 수정\n");
+    printf("4. 연락처 삭제\n");
+    printf("5. 종료\n");
+    printf("메뉴 선택: ");
+}
+
+int main() {
+    int choice;
+
+    while (1) {
+        printMenu();
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                addContact();
+                break;
+            case 2:
+                searchContact();
+                break;
+            case 3:
+                updateContact();
+                break;
+            case 4:
+                deleteContact();
+                break;
+            case 5:
+                printf("프로그램을 종료합니다.\n");
+                return 0;
+            default:
+                printf("잘못된 메뉴 선택입니다. 다시 선택하세요.\n");
+        }
+    }
+
+    return 0;
+}
