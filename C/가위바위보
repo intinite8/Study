@@ -1,0 +1,58 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+int main() {
+    int userChoice, computerChoice;
+
+    // 시드 값 설정을 위한 시간 정보를 얻기 위해 time 함수 사용
+    srand(time(NULL));
+
+    printf("가위(1), 바위(2), 보(3) 중 하나를 선택하세요: ");
+    scanf("%d", &userChoice);
+
+    // 난수를 이용해 컴퓨터의 선택 결정 (1: 가위, 2: 바위, 3: 보)
+    computerChoice = rand() % 3 + 1;
+
+    printf("사용자 선택: ");
+    switch (userChoice) {
+        case 1:
+            printf("가위\n");
+            break;
+        case 2:
+            printf("바위\n");
+            break;
+        case 3:
+            printf("보\n");
+            break;
+        default:
+            printf("잘못된 선택\n");
+            return 0;
+    }
+
+    printf("컴퓨터 선택: ");
+    switch (computerChoice) {
+        case 1:
+            printf("가위\n");
+            break;
+        case 2:
+            printf("바위\n");
+            break;
+        case 3:
+            printf("보\n");
+            break;
+    }
+
+    // 가위바위보 결과 계산
+    if (userChoice == computerChoice) {
+        printf("비겼습니다!\n");
+    } else if ((userChoice == 1 && computerChoice == 3) || 
+               (userChoice == 2 && computerChoice == 1) ||
+               (userChoice == 3 && computerChoice == 2)) {
+        printf("사용자가 이겼습니다!\n");
+    } else {
+        printf("컴퓨터가 이겼습니다!\n");
+    }
+
+    return 0;
+}
