@@ -1,0 +1,64 @@
+#include <stdio.h>
+
+#define MAX_SIZE 100
+
+int stack[MAX_SIZE];
+int top = -1;
+
+void push(int data) {
+    if (top >= MAX_SIZE - 1) {
+        printf("스택이 가득 찼습니다. 데이터를 삽입할 수 없습니다.\n");
+        return;
+    }
+    stack[++top] = data;
+    printf("%d이(가) 스택에 삽입되었습니다.\n", data);
+}
+
+int pop() {
+    if (top < 0) {
+        printf("스택이 비어 있습니다. 데이터를 삭제할 수 없습니다.\n");
+        return -1;
+    }
+    int data = stack[top--];
+    printf("%d이(가) 스택에서 삭제되었습니다.\n", data);
+    return data;
+}
+
+int peek() {
+    if (top < 0) {
+        printf("스택이 비어 있습니다.\n");
+        return -1;
+    }
+    return stack[top];
+}
+
+void printStack() {
+    if (top < 0) {
+        printf("스택이 비어 있습니다.\n");
+        return;
+    }
+    printf("스택의 현재 상태: ");
+    for (int i = 0; i <= top; i++) {
+        printf("%d ", stack[i]);
+    }
+    printf("\n");
+}
+
+int main() {
+    push(10);
+    push(20);
+    push(30);
+
+    printStack();
+
+    pop();
+    printStack();
+
+    push(40);
+    printStack();
+
+    int topElement = peek();
+    printf("스택의 최상단 원소: %d\n", topElement);
+
+    return 0;
+}
