@@ -1,0 +1,49 @@
+#include <stdio.h>
+#include <stdbool.h>
+#include <string.h>
+
+bool areAnagrams(const char* str1, const char* str2) {
+    int count1[MAX_SIZE] = {0};
+    int count2[MAX_SIZE] = {0};
+
+    int len1 = strlen(str1);
+    int len2 = strlen(str2);
+
+    if (len1 != len2) {
+        return false;
+    }
+
+    for (int i = 0; i < len1; i++) {
+        count1[str1[i]]++;
+        count2[str2[i]]++;
+    }
+
+    for (int i = 0; i < MAX_SIZE; i++) {
+        if (count1[i] != count2[i]) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+int main() {
+    char str1[100];
+    char str2[100];
+
+    printf("첫 번째 문자열을 입력하세요: ");
+    fgets(str1, sizeof(str1), stdin);
+    str1[strcspn(str1, "\n")] = '\0';  // fgets로 입력받은 개행 문자 제거
+
+    printf("두 번째 문자열을 입력하세요: ");
+    fgets(str2, sizeof(str2), stdin);
+    str2[strcspn(str2, "\n")] = '\0';  // fgets로 입력받은 개행 문자 제거
+
+    if (areAnagrams(str1, str2)) {
+        printf("두 문자열은 애너그램입니다.\n");
+    } else {
+        printf("두 문자열은 애너그램이 아닙니다.\n");
+    }
+
+    return 0;
+}
