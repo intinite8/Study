@@ -1,0 +1,54 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// 연결 리스트의 노드를 나타내는 구조체
+struct Node {
+    int data;           // 데이터를 저장하는 멤버 변수
+    struct Node* next;  // 다음 노드를 가리키는 포인터
+};
+
+// 연결 리스트에 새로운 노드를 추가하는 함수
+void insertNode(struct Node** head, int data) {
+    // 새로운 노드 생성
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = data;
+    newNode->next = NULL;
+
+    if (*head == NULL) {
+        // 리스트가 비어있는 경우
+        *head = newNode;
+    } else {
+        // 리스트가 비어있지 않은 경우
+        struct Node* curr = *head;
+        while (curr->next != NULL) {
+            curr = curr->next;
+        }
+        curr->next = newNode;
+    }
+}
+
+// 연결 리스트의 모든 노드를 출력하는 함수
+void displayList(struct Node* head) {
+    struct Node* curr = head;
+    while (curr != NULL) {
+        printf("%d ", curr->data);
+        curr = curr->next;
+    }
+    printf("\n");
+}
+
+int main() {
+    // 빈 연결 리스트 생성
+    struct Node* head = NULL;
+
+    // 노드 추가
+    insertNode(&head, 1);
+    insertNode(&head, 2);
+    insertNode(&head, 3);
+    insertNode(&head, 4);
+
+    // 연결 리스트 출력
+    displayList(head);
+
+    return 0;
+}
