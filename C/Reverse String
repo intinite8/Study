@@ -1,0 +1,31 @@
+#include <stdio.h>
+#include <string.h>
+
+void reverseString(char* str) {
+    int length = strlen(str);
+    int start = 0;
+    int end = length - 1;
+
+    while (start < end) {
+        char temp = str[start];
+        str[start] = str[end];
+        str[end] = temp;
+
+        start++;
+        end--;
+    }
+}
+
+int main() {
+    char str[100];
+
+    printf("문자열을 입력하세요: ");
+    fgets(str, sizeof(str), stdin);
+    str[strcspn(str, "\n")] = '\0';  // fgets로 입력받은 개행 문자 제거
+
+    reverseString(str);
+
+    printf("뒤집힌 문자열: %s\n", str);
+
+    return 0;
+}
