@@ -1,0 +1,36 @@
+#include <stdio.h>
+
+// 학생 구조체 정의
+typedef struct {
+    int id;
+    char name[50];
+    int age;
+} Student;
+
+int main() {
+    // 학생 객체 배열 선언
+    Student students[3];
+
+    // 객체 배열에 데이터 저장
+    students[0].id = 1;
+    strcpy(students[0].name, "John");
+    students[0].age = 20;
+
+    students[1].id = 2;
+    strcpy(students[1].name, "Emily");
+    students[1].age = 21;
+
+    students[2].id = 3;
+    strcpy(students[2].name, "Michael");
+    students[2].age = 19;
+
+    // 객체 배열 순회하며 데이터 출력
+    for (int i = 0; i < 3; i++) {
+        printf("Student ID: %d\n", students[i].id);
+        printf("Name: %s\n", students[i].name);
+        printf("Age: %d\n", students[i].age);
+        printf("\n");
+    }
+
+    return 0;
+}
