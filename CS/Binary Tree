@@ -1,0 +1,56 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// 이진 트리의 노드를 나타내는 구조체
+typedef struct Node {
+    int data;           // 데이터를 저장하는 멤버 변수
+    struct Node* left;  // 왼쪽 자식 노드를 가리키는 포인터
+    struct Node* right; // 오른쪽 자식 노드를 가리키는 포인터
+} Node;
+
+// 이진 트리에 새로운 노드를 추가하는 함수
+Node* insertNode(Node* root, int data) {
+    if (root == NULL) {
+        // 트리가 비어있는 경우 새로운 노드 생성
+        Node* newNode = (Node*)malloc(sizeof(Node));
+        newNode->data = data;
+        newNode->left = NULL;
+        newNode->right = NULL;
+        return newNode;
+    } else {
+        // 트리가 비어있지 않은 경우 적절한 위치에 노드 추가
+        if (data <= root->data) {
+            root->left = insertNode(root->left, data);
+        } else {
+            root->right = insertNode(root->right, data);
+        }
+        return root;
+    }
+}
+
+// 이진 트리를 중위 순회하는 함수 (정렬된 순서로 출력)
+void inorderTraversal(Node* root) {
+    if (root != NULL) {
+        inorderTraversal(root->left);
+        printf("%d ", root->data);
+        inorderTraversal(root->right);
+    }
+}
+
+int main() {
+    Node* root = NULL;
+
+    root = insertNode(root, 4);
+    root = insertNode(root, 2);
+    root = insertNode(root, 6);
+    root = insertNode(root, 1);
+    root = insertNode(root, 3);
+    root = insertNode(root, 5);
+    root = insertNode(root, 7);
+
+    printf("Inorder traversal: ");
+    inorderTraversal(root);
+    printf("\n");
+
+    return 0;
+}
