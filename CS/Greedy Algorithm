@@ -1,0 +1,26 @@
+#include <stdio.h>
+
+// 동전 거스름돈 함수 (탐욕법)
+void giveChange(int amount) {
+    int coins[] = {500, 100, 50, 10};  // 동전의 종류
+    int numCoins = sizeof(coins) / sizeof(coins[0]);  // 동전 종류의 개수
+    
+    printf("거스름돈: ");
+    
+    for (int i = 0; i < numCoins; i++) {
+        while (amount >= coins[i]) {
+            printf("%d ", coins[i]);
+            amount -= coins[i];
+        }
+    }
+    
+    printf("\n");
+}
+
+int main() {
+    int amount = 1260;  // 거스름돈 금액
+    
+    giveChange(amount);
+    
+    return 0;
+}
