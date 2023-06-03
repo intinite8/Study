@@ -1,0 +1,56 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX_VERTICES 100
+
+// 그래프를 나타내는 구조체
+typedef struct Graph {
+    int numVertices;                // 그래프의 정점 개수
+    int adjacencyMatrix[MAX_VERTICES][MAX_VERTICES];   // 인접 행렬
+} Graph;
+
+// 그래프 초기화 함수
+void initGraph(Graph* graph, int numVertices) {
+    graph->numVertices = numVertices;
+    int i, j;
+    for (i = 0; i < numVertices; i++) {
+        for (j = 0; j < numVertices; j++) {
+            graph->adjacencyMatrix[i][j] = 0;   // 모든 엣지를 0으로 초기화
+        }
+    }
+}
+
+// 그래프에 엣지 추가 함수
+void addEdge(Graph* graph, int src, int dest) {
+    if (src >= 0 && src < graph->numVertices && dest >= 0 && dest < graph->numVertices) {
+        graph->adjacencyMatrix[src][dest] = 1;   // 방향 그래프의 경우 (src, dest) 엣지 추가
+        graph->adjacencyMatrix[dest][src] = 1;   // 무방향 그래프의 경우 (dest, src) 엣지 추가
+    } else {
+        printf("Invalid vertices.\n");
+    }
+}
+
+// 그래프 출력 함수
+void displayGraph(Graph* graph) {
+    int i, j;
+    for (i = 0; i < graph->numVertices; i++) {
+        for (j = 0; j < graph->numVertices; j++) {
+            printf("%d ", graph->adjacencyMatrix[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+int main() {
+    Graph graph;
+    initGraph(&graph, 4);
+
+    addEdge(&graph, 0, 1);
+    addEdge(&graph, 0, 2);
+    addEdge(&graph, 1, 2);
+    addEdge(&graph, 2, 3);
+
+    displayGraph(&graph);
+
+    return 0;
+}
