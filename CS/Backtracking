@@ -1,0 +1,77 @@
+#include <stdio.h>
+#define N 8
+
+int board[N][N];
+
+// 유효한 위치인지 검사하는 함수
+int isSafe(int row, int col) {
+    int i, j;
+    
+    // 같은 열에 퀸이 있는지 검사
+    for (i = 0; i < row; i++) {
+        if (board[i][col] == 1) {
+            return 0;
+        }
+    }
+    
+    // 왼쪽 위 대각선에 퀸이 있는지 검사
+    for (i = row, j = col; i >= 0 && j >= 0; i--, j--) {
+        if (board[i][j] == 1) {
+            return 0;
+        }
+    }
+    
+    // 오른쪽 위 대각선에 퀸이 있는지 검사
+    for (i = row, j = col; i >= 0 && j < N; i--, j++) {
+        if (board[i][j] == 1) {
+            return 0;
+        }
+    }
+    
+    return 1;
+}
+
+// N-Queen 문제 해결 함수
+int solveNQueen(int row) {
+    if (row >= N) {
+        return 1;  // 모든 퀸을 배치한 경우
+    }
+    
+    for (int col = 0; col < N; col++) {
+        if (isSafe(row, col)) {
+            // 해당 위치에 퀸을 배치
+            board[row][col] = 1;
+            
+            // 다음 행으로 이동하여 재귀적으로 해결
+            if (solveNQueen(row + 1)) {
+                return 1;
+            }
+            
+            // 현재 위치에서 퀸을 제거하고 다른 위치를 탐색
+            board[row][col] = 0;
+        }
+    }
+    
+    return 0;  // 퀸을 배치할 수 없는 경우
+}
+
+// 결과 출력 함수
+void printSolution() {
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < N; j++) {
+            printf("%d ", board[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+int main() {
+    if (solveNQueen(0)) {
+        printf("N-Queen 해답:\n");
+        printSolution();
+    } else {
+        printf("해를 찾을 수 없습니다.\n");
+    }
+    
+    return 0;
+}
