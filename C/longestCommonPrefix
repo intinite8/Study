@@ -1,0 +1,32 @@
+#include <stdio.h>
+#include <stdbool.h>
+#include <string.h>
+
+char* longestCommonPrefix(char* strs[], int n) {
+    if (n == 0) {
+        return "";  // 입력이 없는 경우 빈 문자열 반환
+    }
+
+    char* prefix = strs[0];  // 첫 번째 문자열을 초기 공통 접두사로 설정
+
+    for (int i = 1; i < n; i++) {
+        int j = 0;
+        while (prefix[j] != '\0' && strs[i][j] != '\0' && prefix[j] == strs[i][j]) {
+            j++;
+        }
+        prefix[j] = '\0';  // 일치하지 않는 문자부터는 공통 접두사가 아니므로 종료
+    }
+
+    return prefix;
+}
+
+int main() {
+    char* strs[] = {"flower", "flow", "flight"};
+    int n = sizeof(strs) / sizeof(strs[0]);
+
+    char* prefix = longestCommonPrefix(strs, n);
+
+    printf("가장 긴 공통 접두사: %s\n", prefix);
+
+    return 0;
+}
