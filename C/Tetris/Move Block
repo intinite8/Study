@@ -1,0 +1,23 @@
+#include <stdio.h>
+#include <conio.h>  // Windows에서 getch() 함수를 사용하기 위한 헤더 파일
+
+// 사용자 입력에 따라 테트리스 블록을 이동하는 함수
+void moveBlock(char input) {
+    // 여기에 테트리스 블록을 이동하는 로직을 구현합니다.
+    // 이동 방향에 따라 블록의 위치를 변경하거나 회전하는 등의 동작을 수행합니다.
+    printf("테트리스 블록을 이동합니다. 입력된 키: %c\n", input);
+}
+
+int main() {
+    char input;
+    
+    while (1) {
+        input = getch();  // 사용자의 키 입력을 받아옵니다. (Windows에서 getch() 함수 사용)
+        if (input == 'q' || input == 'Q') {
+            break;  // q 또는 Q 키를 입력하면 종료합니다.
+        }
+        moveBlock(input);  // 사용자 입력에 따라 테트리스 블록을 이동합니다.
+    }
+    
+    return 0;
+}
