@@ -1,0 +1,14 @@
+// 블록과 충돌하는지 여부를 체크하는 함수
+bool checkCollision(const char board[BOARD_HEIGHT][BOARD_WIDTH], const char block[BLOCK_SIZE][BLOCK_SIZE], int x, int y) {
+    for (int i = 0; i < BLOCK_SIZE; i++) {
+        for (int j = 0; j < BLOCK_SIZE; j++) {
+            if (block[i][j] != ' ') {
+                // 블록이 다른 블록이나 게임 보드의 벽과 충돌하는지 체크
+                if (x + j < 0 || x + j >= BOARD_WIDTH || y + i >= BOARD_HEIGHT || board[y + i][x + j] != ' ') {
+                    return true;  // 충돌이 발생하면 true 반환
+                }
+            }
+        }
+    }
+    return false;  // 충돌이 발생하지 않으면 false 반환
+}
