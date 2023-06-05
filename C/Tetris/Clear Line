@@ -1,0 +1,27 @@
+// 한 줄이 꽉 찼을 때, 해당 행을 지우고 위의 행들을 한 칸씩 아래로 내리는 함수
+void clearLine(char board[BOARD_HEIGHT][BOARD_WIDTH], int line) {
+    for (int i = line; i > 0; i--) {
+        for (int j = 0; j < BOARD_WIDTH; j++) {
+            board[i][j] = board[i - 1][j];  // 위의 행들을 한 칸씩 아래로 내림
+        }
+    }
+    for (int j = 0; j < BOARD_WIDTH; j++) {
+        board[0][j] = ' ';  // 가장 위의 행은 공백으로 초기화
+    }
+}
+
+// 게임 보드에서 꽉 찬 줄을 검사하고 처리하는 함수
+void checkFullLines(char board[BOARD_HEIGHT][BOARD_WIDTH]) {
+    for (int i = 0; i < BOARD_HEIGHT; i++) {
+        bool isFull = true;
+        for (int j = 0; j < BOARD_WIDTH; j++) {
+            if (board[i][j] == ' ') {
+                isFull = false;  // 한 칸이라도 비어 있으면 isFull을 false로 설정
+                break;
+            }
+        }
+        if (isFull) {
+            clearLine(board, i);  // 한 줄이 꽉 찼을 때 해당 행을 지우고 위의 행들을 내림
+        }
+    }
+}
