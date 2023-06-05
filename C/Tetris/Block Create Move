@@ -1,0 +1,106 @@
+#include <stdio.h>
+#include <stdbool.h>
+#include <stdlib.h>
+#include <time.h>
+
+#define BOARD_WIDTH 10
+#define BOARD_HEIGHT 20
+#define BLOCK_SIZE 4
+
+// 게임 보드를 초기화하는 함수
+void initBoard(char board[BOARD_HEIGHT][BOARD_WIDTH]) {
+    for (int i = 0; i < BOARD_HEIGHT; i++) {
+        for (int j = 0; j < BOARD_WIDTH; j++) {
+            board[i][j] = ' ';  // 보드의 모든 칸을 공백으로 초기화
+        }
+    }
+}
+
+// 게임 보드를 출력하는 함수
+void printBoard(const char board[BOARD_HEIGHT][BOARD_WIDTH]) {
+    for (int i = 0; i < BOARD_HEIGHT; i++) {
+        for (int j = 0; j < BOARD_WIDTH; j++) {
+            printf("%c ", board[i][j]);  // 보드의 각 칸을 공백과 함께 출력
+        }
+        printf("\n");  // 한 줄 출력 후 줄바꿈
+    }
+}
+
+// 블록을 생성하는 함수
+void createBlock(char block[BLOCK_SIZE][BLOCK_SIZE]) {
+    // 여기에서 블록의 모양을 랜덤하게 생성하거나 미리 정의된 블록 중에서 선택할 수 있습니다.
+    // 이 예시에서는 단순히 공백으로 된 블록을 생성합니다.
+    for (int i = 0; i < BLOCK_SIZE; i++) {
+        for (int j = 0; j < BLOCK_SIZE; j++) {
+            block[i][j] = ' ';
+        }
+    }
+}
+
+// 블록을 게임 보드에 삽입하는 함수
+void insertBlock(char board[BOARD_HEIGHT][BOARD_WIDTH], const char block[BLOCK_SIZE][BLOCK_SIZE], int x, int y) {
+    for (int i = 0; i < BLOCK_SIZE; i++) {
+        for (int j = 0; j < BLOCK_SIZE; j++) {
+            if (block[i][j] != ' ') {
+                board[y + i][x + j] = block[i][j];  // 블록의 모양에 따라 보드에 블록을 삽입
+            }
+        }
+    }
+}
+
+// 블록을 이동시키는 함수
+void moveBlock(char board[BOARD_HEIGHT][BOARD_WIDTH], const char block[BLOCK_SIZE][BLOCK_SIZE], int x, int y, int dx, int dy) {
+    // 이전 위치에 있는 블록을 지웁니다.
+    for (int i = 0; i < BLOCK_SIZE; i++) {
+        for (int j = 0; j < BLOCK_SIZE; j++) {
+            if (block[i][j] != ' ') {
+                board[y + i][x + j] = ' ';  // 이전 위치의 블록을 공백으로 지움
+            }
+        }
+    }
+
+    // 새로운 위치로 블록을 이동시킵니다.
+    x += dx;
+    y += dy;
+
+    // 이동한 위치에 블록을 삽입합니다.
+    insertBlock(board, block, x, y);
+}
+
+int main() {
+    char board[BOARD_HEIGHT][BOARD_WIDTH];
+    char block[BLOCK_SIZE][BLOCK_SIZE];
+    int x = BOARD_WIDTH / 2 - BLOCK_SIZE / 2;  // 블록의 초기 X 위치
+    int y = 0;  // 블록의 초기 Y 위치
+
+    // 랜덤 시드 설정
+    srand(time(NULL));
+
+    // 게임 보드 초기화
+    initBoard(board);
+
+    // 블록 생성
+    createBlock(block);
+
+    // 블록 삽입
+    insertBlock(board, block, x, y);
+
+    // 게임 진행
+    while (true) {
+        // 게임 보드 출력
+        printBoard(board);
+
+        // 사용자 입력 처리
+        // 여기에서 사용자의 키 입력에 따라 블록을 이동시키는 코드를 추가할 수 있습니다.
+        // 사용자 입력을 받아서 dx, dy 값을 결정한 뒤 moveBlock() 함수를 호출하여 블록을 이동시킵니다.
+        // 예를 들어, 사용자가 'a' 키를 입력하면 블록을 왼쪽으로 이동시키고, 'd' 키를 입력하면 블록을 오른쪽으로 이동시킬 수 있습니다.
+
+        // 일시 정지
+        // 일시 정지 기능을 추가하려면 여기에 해당하는 코드를 작성할 수 있습니다.
+
+        // 게임 종료 조건 체크
+        // 게임 종료 조건(예: 블록이 화면 맨 위에 닿았을 경우)을 체크하고 게임을 종료하는 로직을 작성할 수 있습니다.
+    }
+
+    return 0;
+}
