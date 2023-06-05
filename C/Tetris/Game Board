@@ -1,0 +1,35 @@
+#include <stdio.h>
+
+#define BOARD_WIDTH 10
+#define BOARD_HEIGHT 20
+
+// 게임 보드를 초기화하는 함수
+void initBoard(char board[BOARD_HEIGHT][BOARD_WIDTH]) {
+    for (int i = 0; i < BOARD_HEIGHT; i++) {
+        for (int j = 0; j < BOARD_WIDTH; j++) {
+            board[i][j] = ' ';  // 보드의 모든 칸을 공백으로 초기화
+        }
+    }
+}
+
+// 게임 보드를 출력하는 함수
+void printBoard(const char board[BOARD_HEIGHT][BOARD_WIDTH]) {
+    for (int i = 0; i < BOARD_HEIGHT; i++) {
+        for (int j = 0; j < BOARD_WIDTH; j++) {
+            printf("%c ", board[i][j]);  // 보드의 각 칸을 공백과 함께 출력
+        }
+        printf("\n");  // 한 줄 출력 후 줄바꿈
+    }
+}
+
+int main() {
+    char board[BOARD_HEIGHT][BOARD_WIDTH];
+
+    // 게임 보드 초기화
+    initBoard(board);
+
+    // 게임 보드 출력
+    printBoard(board);
+
+    return 0;
+}
