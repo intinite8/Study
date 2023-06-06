@@ -1,0 +1,32 @@
+int main() {
+    int choice;
+    char* inputFilename;
+    char* outputFilename;
+
+    printf("1. Compress file\n");
+    printf("2. Decompress file\n");
+    printf("Enter your choice: ");
+    scanf("%d", &choice);
+
+    switch (choice) {
+        case 1:
+            inputFilename = selectFile();
+            outputFilename = "compressed.bin";
+            compressFile(inputFilename, outputFilename);
+            printf("File compressed successfully.\n");
+            free(inputFilename);
+            break;
+        case 2:
+            inputFilename = selectFile();
+            outputFilename = "decompressed.txt";
+            decompressFile(inputFilename, outputFilename);
+            printf("File decompressed successfully.\n");
+            free(inputFilename);
+            break;
+        default:
+            printf("Invalid choice.\n");
+            break;
+    }
+
+    return 0;
+}
