@@ -1,0 +1,15 @@
+// 파일 압축 단계: 주어진 파일을 압축하여 새로운 파일에 작성하는 함수
+void compressFile(const char* inputFilename, const char* outputFilename) {
+    FILE* inputFile = fopen(inputFilename, "rb");
+    gzFile outputFile = gzopen(outputFilename, "wb");
+
+    char buffer[1024];
+    int bytesRead;
+
+    while ((bytesRead = fread(buffer, 1, sizeof(buffer), inputFile)) > 0) {
+        gzwrite(outputFile, buffer, bytesRead);
+    }
+
+    fclose(inputFile);
+    gzclose(outputFile);
+}
