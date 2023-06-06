@@ -1,0 +1,15 @@
+// 파일 압축 해제 단계: 압축된 파일을 해제하여 새로운 파일에 작성하는 함수
+void decompressFile(const char* inputFilename, const char* outputFilename) {
+    gzFile inputFile = gzopen(inputFilename, "rb");
+    FILE* outputFile = fopen(outputFilename, "wb");
+
+    char buffer[1024];
+    int bytesRead;
+
+    while ((bytesRead = gzread(inputFile, buffer, sizeof(buffer))) > 0) {
+        fwrite(buffer, 1, bytesRead, outputFile);
+    }
+
+    gzclose(inputFile);
+    fclose(outputFile);
+}
