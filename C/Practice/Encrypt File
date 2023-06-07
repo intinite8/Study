@@ -1,0 +1,70 @@
+#include <stdio.h>
+
+// 암호화 키
+
+const char KEY = 'K';
+
+// 파일 암호화 함수
+
+void encryptFile(const char* inputFile, const char* outputFile) {
+
+    FILE* inFile = fopen(inputFile, "rb");
+
+    FILE* outFile = fopen(outputFile, "wb");
+
+    if (inFile == NULL || outFile == NULL) {
+
+        printf("파일을 열 수 없습니다.\n");
+
+        return;
+
+    }
+
+    int ch;
+
+    while ((ch = fgetc(inFile)) != EOF) {
+
+        ch = ch ^ KEY;  // XOR 연산을 통한 암호화
+
+        fputc(ch, outFile);
+
+    }
+
+    fclose(inFile);
+
+    fclose(outFile);
+
+}
+
+// 파일 복호화 함수
+
+void decryptFile(const char* inputFile, const char* outputFile) {
+
+    encryptFile(inputFile, outputFile);  // 복호화는 암호화와 동일한 연산
+
+}
+
+int main() {
+
+    const char* inputFile = "input.txt";
+
+    const char* encryptedFile = "encrypted.txt";
+
+    const char* decryptedFile = "decrypted.txt";
+
+    // 파일 암호화
+
+    encryptFile(inputFile, encryptedFile);
+
+    printf("파일 암호화 완료: %s -> %s\n", inputFile, encryptedFile);
+
+    // 파일 복호화
+
+    decryptFile(encryptedFile, decryptedFile);
+
+    printf("파일 복호화 완료: %s -> %s\n", encryptedFile, decryptedFile);
+
+    return 0;
+
+}
+
