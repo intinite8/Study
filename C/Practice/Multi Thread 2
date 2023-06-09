@@ -1,0 +1,69 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <pthread.h>
+
+#define MATRIX_SIZE 1000
+#define NUM_THREADS 4
+
+int matrixA[MATRIX_SIZE][MATRIX_SIZE];
+int matrixB[MATRIX_SIZE][MATRIX_SIZE];
+int resultMatrix[MATRIX_SIZE][MATRIX_SIZE];
+
+typedef struct {
+    int startRow;
+    int endRow;
+} ThreadArgs;
+
+void* multiplyRows(void* arg) {
+    ThreadArgs* args = (ThreadArgs*)arg;
+    int startRow = args->startRow;
+    int endRow = args->endRow;
+
+    for (int i = startRow; i < endRow; i++) {
+        for (int j = 0; j < MATRIX_SIZE; j++) {
+            resultMatrix[i][j] = 0;
+            for (int k = 0; k < MATRIX_SIZE; k++) {
+                resultMatrix[i][j] += matrixA[i][k] * matrixB[k][j];
+            }
+        }
+    }
+
+    pthread_exit(NULL);
+}
+
+int main() {
+    pthread_t threads[NUM_THREADS];
+    ThreadArgs threadArgs[NUM_THREADS];
+
+    // 행렬 초기화
+    for (int i = 0; i < MATRIX_SIZE; i++) {
+        for (int j = 0; j < MATRIX_SIZE; j++) {
+            matrixA[i][j] = i + j;
+            matrixB[i][j] = i - j;
+        }
+    }
+
+    // 스레드 병렬 실행
+    int rowsPerThread = MATRIX_SIZE / NUM_THREADS;
+    for (int i = 0; i < NUM_THREADS; i++) {
+        threadArgs[i].startRow = i * rowsPerThread;
+        threadArgs[i].endRow = (i + 1) * rowsPerThread;
+        pthread_create(&threads[i], NULL, multiplyRows, (void*)&threadArgs[i]);
+    }
+
+    // 스레드 완료 대기
+    for (int i = 0; i < NUM_THREADS; i++) {
+        pthread_join(threads[i], NULL);
+    }
+
+    // 결과 출력
+    printf("Result Matrix:\n");
+    for (int i = 0; i < MATRIX_SIZE; i++) {
+        for (int j = 0; j < MATRIX_SIZE; j++) {
+            printf("%d ", resultMatrix[i][j]);
+        }
+        printf("\n");
+    }
+
+    return 0;
+}
