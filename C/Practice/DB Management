@@ -1,0 +1,141 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAX_RECORDS 100
+
+typedef struct {
+    int id;
+    char name[50];
+    int age;
+} Record;
+
+void printMenu() {
+    printf("\n--- Database Management System ---\n");
+    printf("1. Add record\n");
+    printf("2. Display all records\n");
+    printf("3. Search record\n");
+    printf("4. Update record\n");
+    printf("5. Delete record\n");
+    printf("6. Exit\n");
+    printf("----------------------------------\n");
+    printf("Enter your choice: ");
+}
+
+void addRecord(Record* records, int* count) {
+    if (*count >= MAX_RECORDS) {
+        printf("Maximum number of records reached.\n");
+        return;
+    }
+
+    Record newRecord;
+    printf("Enter ID: ");
+    scanf("%d", &newRecord.id);
+    printf("Enter name: ");
+    scanf("%s", newRecord.name);
+    printf("Enter age: ");
+    scanf("%d", &newRecord.age);
+
+    records[*count] = newRecord;
+    (*count)++;
+    printf("Record added successfully.\n");
+}
+
+void displayAllRecords(Record* records, int count) {
+    printf("Records:\n");
+    for (int i = 0; i < count; i++) {
+        printf("ID: %d, Name: %s, Age: %d\n", records[i].id, records[i].name, records[i].age);
+    }
+}
+
+void searchRecord(Record* records, int count) {
+    int searchId;
+    printf("Enter ID to search: ");
+    scanf("%d", &searchId);
+
+    for (int i = 0; i < count; i++) {
+        if (records[i].id == searchId) {
+            printf("Record found:\n");
+            printf("ID: %d, Name: %s, Age: %d\n", records[i].id, records[i].name, records[i].age);
+            return;
+        }
+    }
+
+    printf("Record not found.\n");
+}
+
+void updateRecord(Record* records, int count) {
+    int updateId;
+    printf("Enter ID to update: ");
+    scanf("%d", &updateId);
+
+    for (int i = 0; i < count; i++) {
+        if (records[i].id == updateId) {
+            printf("Enter new name: ");
+            scanf("%s", records[i].name);
+            printf("Enter new age: ");
+            scanf("%d", &records[i].age);
+            printf("Record updated successfully.\n");
+            return;
+        }
+    }
+
+    printf("Record not found.\n");
+}
+
+void deleteRecord(Record* records, int* count) {
+    int deleteId;
+    printf("Enter ID to delete: ");
+    scanf("%d", &deleteId);
+
+    for (int i = 0; i < *count; i++) {
+        if (records[i].id == deleteId) {
+            // Shift elements to fill the gap
+            for (int j = i; j < *count - 1; j++) {
+                records[j] = records[j + 1];
+            }
+            (*count)--;
+            printf("Record deleted successfully.\n");
+            return;
+        }
+    }
+
+    printf("Record not found.\n");
+}
+
+int main() {
+    Record records[MAX_RECORDS];
+    int count = 0;
+    char choice;
+
+    while (1) {
+        printMenu();
+        scanf(" %c", &choice);
+
+        switch (choice) {
+            case '1': // Add record
+                addRecord(records, &count);
+                break;
+            case '2': // Display all records
+                displayAllRecords(records, count);
+                break;
+            case '3': // Search record
+                searchRecord(records, count);
+                break;
+            case '4': // Update record
+                updateRecord(records, count);
+                break;
+            case '5': // Delete record
+                deleteRecord(records, &count);
+                break;
+            case '6': // Exit
+                printf("Exiting...\n");
+                exit(0);
+            default:
+                printf("Invalid choice. Try again.\n");
+                break;
+        }
+    }
+
+    return 0;
+}
