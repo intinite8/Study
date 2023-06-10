@@ -1,0 +1,86 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAX_LINE_LENGTH 1000
+
+void printMenu() {
+    printf("\n--- Text Editor ---\n");
+    printf("1. Open file\n");
+    printf("2. Edit file\n");
+    printf("3. Save file\n");
+    printf("4. Exit\n");
+    printf("------------------\n");
+    printf("Enter your choice: ");
+}
+
+int main() {
+    char filename[100];
+    FILE* file = NULL;
+    char line[MAX_LINE_LENGTH];
+    char choice;
+    int lineCount = 0;
+
+    while (1) {
+        printMenu();
+        scanf(" %c", &choice);
+
+        switch (choice) {
+            case '1': // Open file
+                printf("Enter the filename: ");
+                scanf("%s", filename);
+                file = fopen(filename, "r");
+                if (file == NULL) {
+                    printf("Failed to open the file.\n");
+                } else {
+                    printf("File opened successfully.\n");
+                }
+                break;
+            case '2': // Edit file
+                if (file == NULL) {
+                    printf("No file is open.\n");
+                } else {
+                    printf("Enter the text (press Enter on an empty line to finish):\n");
+                    while (fgets(line, MAX_LINE_LENGTH, stdin) != NULL) {
+                        if (line[0] == '\n') {
+                            break;
+                        }
+                        lineCount++;
+                        fputs(line, file);
+                    }
+                    printf("Text edited successfully.\n");
+                }
+                break;
+            case '3': // Save file
+                if (file == NULL) {
+                    printf("No file is open.\n");
+                } else {
+                    rewind(file);
+                    printf("Enter the new filename: ");
+                    scanf("%s", filename);
+                    FILE* newFile = fopen(filename, "w");
+                    if (newFile == NULL) {
+                        printf("Failed to create the new file.\n");
+                    } else {
+                        while (fgets(line, MAX_LINE_LENGTH, file) != NULL) {
+                            fputs(line, newFile);
+                        }
+                        fclose(newFile);
+                        printf("File saved successfully.\n");
+                    }
+                }
+                break;
+            case '4': // Exit
+                if (file != NULL) {
+                    fclose(file);
+                }
+                printf("Exiting...\n");
+                exit(0);
+            default:
+                printf("Invalid choice. Try again.\n");
+                break;
+        }
+    }
+
+    return 0;
+}
