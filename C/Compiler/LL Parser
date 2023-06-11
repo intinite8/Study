@@ -1,0 +1,130 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+// 토큰 종류
+typedef enum {
+    TOKEN_ID,
+    TOKEN_PLUS,
+    TOKEN_MINUS,
+    TOKEN_MULTIPLY,
+    TOKEN_DIVIDE,
+    TOKEN_NUMBER,
+    TOKEN_LPAREN,
+    TOKEN_RPAREN,
+    TOKEN_EOF
+} TokenType;
+
+// 토큰 구조체
+typedef struct {
+    TokenType type;
+    char lexeme[100];
+    int value;
+} Token;
+
+// 파서 구조체
+typedef struct {
+    Token currentToken;
+    char input[100];
+    int position;
+} Parser;
+
+// 토큰 생성 함수
+Token createToken(TokenType type, const char* lexeme, int value) {
+    Token token;
+    token.type = type;
+    strcpy(token.lexeme, lexeme);
+    token.value = value;
+    return token;
+}
+
+// 파서 초기화 함수
+void initializeParser(Parser* parser, const char* input) {
+    strcpy(parser->input, input);
+    parser->position = 0;
+    parser->currentToken = createToken(TOKEN_EOF, "", 0);
+}
+
+// 다음 토큰 얻기
+void getNextToken(Parser* parser) {
+    if (parser->position >= strlen(parser->input)) {
+        parser->currentToken = createToken(TOKEN_EOF, "", 0);
+        return;
+    }
+
+    char currentChar = parser->input[parser->position];
+
+    if (currentChar >= '0' && currentChar <= '9') {
+        // 숫자 토큰인 경우
+        char number[100];
+        int i = 0;
+        while (currentChar >= '0' && currentChar <= '9') {
+            number[i++] = currentChar;
+            currentChar = parser->input[++parser->position];
+        }
+        number[i] = '\0';
+        int value = atoi(number);
+        parser->currentToken = createToken(TOKEN_NUMBER, number, value);
+    } else {
+        // 다른 종류의 토큰인 경우
+        switch (currentChar) {
+            case '+':
+                parser->currentToken = createToken(TOKEN_PLUS, "+", 0);
+                break;
+            case '-':
+                parser->currentToken = createToken(TOKEN_MINUS, "-", 0);
+                break;
+            case '*':
+                parser->currentToken = createToken(TOKEN_MULTIPLY, "*", 0);
+                break;
+            case '/':
+                parser->currentToken = createToken(TOKEN_DIVIDE, "/", 0);
+                break;
+            case '(':
+                parser->currentToken = createToken(TOKEN_LPAREN, "(", 0);
+                break;
+            case ')':
+                parser->currentToken = createToken(TOKEN_RPAREN, ")", 0);
+                break;
+            default:
+                parser->currentToken = createToken(TOKEN_ID, "", 0);
+                break;
+        }
+        parser->position++;
+    }
+}
+
+// 구문 분석 함수
+void parseExpression(Parser* parser);
+
+void parseTerm(Parser* parser) {
+    getNextToken(parser);
+
+    if (parser->currentToken.type == TOKEN_NUMBER) {
+        printf("Parsing term: %s\n", parser->currentToken.lexeme);
+    } else if (parser->currentToken.type == TOKEN_LPAREN) {
+        printf("Parsing term: (");
+        parseExpression(parser);
+        getNextToken(parser);  // RPAREN
+        printf(")\n");
+    }
+}
+
+void parseExpression(Parser* parser) {
+    parseTerm(parser);
+
+    while (parser->currentToken.type == TOKEN_PLUS || parser->currentToken.type == TOKEN_MINUS) {
+        printf("Parsing expression: %s", parser->currentToken.lexeme);
+        getNextToken(parser);
+        parseTerm(parser);
+    }
+}
+
+// 메인 함수
+int main() {
+    Parser parser;
+    const char* input = "1 + (2 - 3)";
+    initializeParser(&parser, input);
+    parseExpression(&parser);
+    return 0;
+}
