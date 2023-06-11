@@ -1,0 +1,35 @@
+typedef struct {
+    int opcode;
+    int operand1;
+    int operand2;
+    // 추가적인 필드들...
+} IntermediateCode;
+
+void generateIntermediateCode(AbstractSyntaxTree* ast, IntermediateCodeList* icList) {
+    // 추상 구문 트리를 순회하며 중간 코드를 생성하는 로직 구현
+    // 각 노드의 유형에 따라 적절한 중간 코드를 생성하여 icList에 추가
+}
+
+typedef struct {
+    IntermediateCode* code;
+    struct IntermediateCodeNode* next;
+} IntermediateCodeNode;
+
+typedef struct {
+    IntermediateCodeNode* head;
+    IntermediateCodeNode* tail;
+} IntermediateCodeList;
+
+void addIntermediateCode(IntermediateCodeList* icList, IntermediateCode* code) {
+    IntermediateCodeNode* newNode = (IntermediateCodeNode*)malloc(sizeof(IntermediateCodeNode));
+    newNode->code = code;
+    newNode->next = NULL;
+    
+    if (icList->head == NULL) {
+        icList->head = newNode;
+        icList->tail = newNode;
+    } else {
+        icList->tail->next = newNode;
+        icList->tail = newNode;
+    }
+}
