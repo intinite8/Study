@@ -1,0 +1,20 @@
+#define TYPE_INT 1
+#define TYPE_FLOAT 2
+#define TYPE_CHAR 3
+// 추가적인 타입 정의...
+
+int checkType(SymbolTable* symbolTable, char* name, int expectedType) {
+    SymbolEntry* entry = lookupSymbol(symbolTable, name);  // 심벌 테이블에서 식별자 검색
+    if (entry == NULL) {
+        // 에러 처리: 식별자가 심벌 테이블에 없는 경우
+        return 0;
+    }
+    
+    // 타입 체크 로직: entry->type와 expectedType를 비교하여 일치 여부 확인
+    if (entry->type == expectedType) {
+        return 1;  // 타입 일치
+    } else {
+        // 에러 처리: 타입 불일치
+        return 0;
+    }
+}
