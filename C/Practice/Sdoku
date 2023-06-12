@@ -1,0 +1,105 @@
+#include <stdio.h>
+#include <stdbool.h>
+
+#define SIZE 9
+
+// 스도쿠 보드 초기화
+void initializeBoard(int board[SIZE][SIZE]) {
+    // 보드의 모든 요소를 0으로 초기화
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE; j++) {
+            board[i][j] = 0;
+        }
+    }
+}
+
+// 스도쿠 보드 출력
+void printBoard(int board[SIZE][SIZE]) {
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE; j++) {
+            printf("%d ", board[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+// 스도쿠 보드 값 입력
+void enterBoardValues(int board[SIZE][SIZE]) {
+    printf("스도쿠 보드 값을 입력하세요 (빈 칸은 0으로 입력): \n");
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE; j++) {
+            scanf("%d", &board[i][j]);
+        }
+    }
+}
+
+// 스도쿠 보드 검증
+bool isValidBoard(int board[SIZE][SIZE]) {
+    // 각 행에 중복된 숫자가 있는지 확인
+    for (int i = 0; i < SIZE; i++) {
+        bool used[SIZE + 1] = { false };
+        for (int j = 0; j < SIZE; j++) {
+            int num = board[i][j];
+            if (num != 0) {
+                if (used[num]) {
+                    return false;
+                }
+                used[num] = true;
+            }
+        }
+    }
+    
+    // 각 열에 중복된 숫자가 있는지 확인
+    for (int j = 0; j < SIZE; j++) {
+        bool used[SIZE + 1] = { false };
+        for (int i = 0; i < SIZE; i++) {
+            int num = board[i][j];
+            if (num != 0) {
+                if (used[num]) {
+                    return false;
+                }
+                used[num] = true;
+            }
+        }
+    }
+    
+    // 3x3 박스에 중복된 숫자가 있는지 확인
+    for (int boxRow = 0; boxRow < 3; boxRow++) {
+        for (int boxCol = 0; boxCol < 3; boxCol++) {
+            bool used[SIZE + 1] = { false };
+            for (int i = 0; i < 3; i++) {
+                for (int j = 0; j < 3; j++) {
+                    int row = boxRow * 3 + i;
+                    int col = boxCol * 3 + j;
+                    int num = board[row][col];
+                    if (num != 0) {
+                        if (used[num]) {
+                            return false;
+                        }
+                        used[num] = true;
+                    }
+                }
+            }
+        }
+    }
+    
+    return true;
+}
+
+int main() {
+    int board[SIZE][SIZE];
+    
+    initializeBoard(board);
+    enterBoardValues(board);
+    
+    printf("스도쿠 보드:\n");
+    printBoard(board);
+    
+    if (isValidBoard(board)) {
+        printf("유효한 스도쿠 보드입니다.\n");
+    } else {
+        printf("유효하지 않은 스도쿠 보드입니다.\n");
+    }
+    
+    return 0;
+}
