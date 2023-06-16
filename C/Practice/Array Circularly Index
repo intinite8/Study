@@ -1,0 +1,40 @@
+#include <stdio.h>
+
+int main() {
+    char square[3][5] = { {'A', 'B', 'C', 'D', 'E'},
+                          {'F', 'G', 'H', 'I', 'J'},
+                          {'K', 'L', 'M', 'N', 'O'} };
+
+    int x = 0;
+    int num_columns = 5;  // 배열의 열의 개수
+
+    for (int y = 0; y < 3; y++) {
+        printf("%c\n", square[y][x]);
+        x = (x + 1) % num_columns;
+    }
+
+    return 0;
+}
+
+
+#include <stdio.h>
+
+int main() {
+    char square[3][5] = { {'A', 'B', 'C', 'D', 'E'},
+                          {'F', 'G', 'H', 'I', 'J'},
+                          {'K', 'L', 'M', 'N', 'O'} };
+
+    int num_rows = 3;     // 배열의 행의 개수
+    int num_columns = 5;  // 배열의 열의 개수
+
+    int total_elements = num_rows * num_columns;  // 배열의 전체 요소 개수
+    int x = 0;
+
+    for (int i = 0; i < total_elements; i++) {
+        int y = i / num_columns;  // 요소의 행 인덱스 계산
+        printf("%c ", square[y][x]);
+        x = (x + 1) % num_columns;  // 열 인덱스 순환
+    }
+
+    return 0;
+}
