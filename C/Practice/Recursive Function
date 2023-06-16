@@ -1,0 +1,24 @@
+#include <stdio.h>
+
+int factorial(int n) {
+    // 종료 조건: n이 0 또는 1일 때
+    if (n == 0 || n == 1) {
+        return 1;
+    }
+
+    // 재귀 호출: n * (n-1) 팩토리얼 계산
+    return n * factorial(n - 1);
+}
+
+int main() {
+    int number;
+
+    printf("Enter a positive integer: ");
+    scanf("%d", &number);
+
+    // 팩토리얼 계산 및 출력
+    int result = factorial(number);
+    printf("%d! = %d\n", number, result);
+
+    return 0;
+}
